@@ -4,18 +4,19 @@ const cors = require('cors');
 
 const app = express();
 
-// Middlewares globais
-app.use(cors()); // Permite requisições do Front-end (React)
-app.use(express.json()); // Permite receber dados no formato JSON
+app.use(cors());
+app.use(express.json());
 
-// Importação das rotas
-// Vamos criar este ficheiro no próximo passo
 const rotasProcessoSeletivo = require('./server-processoseletivo');
+// Importa a rota de autenticação
+const rotasAuth = require('./server-auth'); 
+const rotasEquipamentos = require('./server-equipamentos'); 
 
-// Configuração dos Endpoints
+app.use('/api/equipamentos', rotasEquipamentos);
 app.use('/api/processo-seletivo', rotasProcessoSeletivo);
 
-// Rota de verificação de status (Health Check)
+// onfigura o prefixo da rota de autenticação
+app.use('/api/auth', rotasAuth); 
 app.get('/api/status', (req, res) => {
     res.json({ status: 'Online', mensagem: 'API Corporate Portal Mock operacional!' });
 });
